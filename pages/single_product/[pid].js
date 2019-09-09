@@ -3,7 +3,8 @@ import fetch from 'isomorphic-unfetch';
 
 const Product = props => {
   const imgSrc = './static/theme/assets/images/shop/' + props.image;
-  
+  console.log('props',props)
+  console.log('props.url',props.url.query.pid)
   return (
   <div>
     <section className="module">
