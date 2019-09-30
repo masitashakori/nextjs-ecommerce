@@ -2,7 +2,7 @@ import React from 'react'
 import Head from 'next/head'
 import Latest from '../components/latest'
 import fetch from 'isomorphic-unfetch'
-
+import absoluteUrl from 'next-absolute-url'
 
 const Home = props => (
       <div>
@@ -74,8 +74,10 @@ const Home = props => (
       </div>
 )
 
-Home.getInitialProps = async () => {
-  const res = await fetch ("http://localhost:3000/static/api/data.json");
+Home.getInitialProps = async ({req}) => {
+  const { protocol, host } = absoluteUrl(req)
+  const apiURL = `${protocol}//${host}`
+  const res = await fetch (`${apiURL}/static/api/data.json`);
   const data = await res.json();
   console.log(`Data is here: ${data.length}`)
 
