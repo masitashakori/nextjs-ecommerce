@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-unfetch';
-
+import absoluteUrl from 'next-absolute-url'
+import { withRouter } from 'next/router'
 
 const Product = props => ( 
   <div> 
@@ -56,7 +57,8 @@ const Product = props => (
                   data-item-id={props.data[0].id}
                   data-item-name={props.data[0].name}
                   data-item-price={props.data[0].price}
-                  data-item-image={`./../static/theme/assets/images/shop/${props.data[0].image}`}>
+                  data-item-image={`./../static/theme/assets/images/shop/${props.data[0].image}`}
+                  data-item-url={props.router.pathname}>
                     <span className="icon-basket">Add To Cart</span>
                 </button>
               </div>
@@ -229,7 +231,10 @@ const Product = props => (
 
 Product.getInitialProps = async (context) => {
   const { id } = context.query;
-  const res = await fetch (`http://localhost:3000/static/api/data.json`);
+  const { req } = context
+  const { protocol, host } = absoluteUrl(req)
+  const apiURL = `${protocol}//${host}`
+  const res = await fetch (`${apiURL}/static/api/data.json`);
   const products = await res.json();
   
   return { data : products.filter(product => {
@@ -240,4 +245,4 @@ Product.getInitialProps = async (context) => {
   }
 }
 
-export default Product
+export default withRouter(Product)
