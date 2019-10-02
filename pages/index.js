@@ -79,7 +79,6 @@ Home.getInitialProps = async ({req}) => {
   const apiURL = `${protocol}//${host}`
   const res = await fetch (`${apiURL}/static/api/data.json`);
   const data = await res.json();
-  console.log(`Data is here: ${data.length}`)
 
   return {
     products: data
